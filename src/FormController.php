@@ -23,7 +23,7 @@ class FormController
     
     public function render()
     {
-        if (is_null($this->twig)) $this->setTwig();
+        if (is_null($this->twig)) $this->getTwig();
         
         $array = [
             'form' => $this->form,
@@ -37,7 +37,7 @@ class FormController
             ]
         ];
         
-        if (!is_null($form)) {
+        if (!is_null($this->form)) {
             $form = $this->twig->render('bootStrapTwigForm/form.html.twig', $array);
         } else {
             $form = 'form array is not defined';
@@ -75,7 +75,7 @@ class FormController
         return $this;
     }
     
-    public function setForm($formMethod = 'POST')
+    public function setFormMethod($formMethod = 'POST')
     {
         $this->formMethod = $formMethod;
         return $this;
@@ -95,10 +95,10 @@ class FormController
     
     private function getTwig()
     {
-        Twig_Autoloader::register();
+        \Twig_Autoloader::register();
 
-        $loader = new Twig_Loader_Filesystem($this->root.'/views');
-        $this->twig = new Twig_Environment($loader, [
+        $loader = new \Twig_Loader_Filesystem($this->root.'/views');
+        $this->twig = new \Twig_Environment($loader, [
             'debug' => true
         ]);
     }
