@@ -1,0 +1,45 @@
+<form role="form" action="{{ params.url }}"{% if params.formTarget is not null %} target="{{ params.formTarget }}"{% endif %} id="{{ params.formId }}" class="{{ params.formClass }}" method="{{ params.formMethod }}">
+    {% for key,line in form %}
+        {% if line.type == 'hidden' %}
+            <input type="hidden" id="{{ key }}" name="{{ key }}" value="{{ line.value }}">
+        {% elseif line.type matches '/[.*]?[S|s]elector/' %}
+            <div class="form-group has-feedback">
+                {% if line.name is defined %}
+                    <label for="{{ key }}">{{ line.name|raw }}{% if line.legend is defined %} {{ line.legend|raw }}{% endif %}</label>
+                {% endif %}
+                {% set inputs = {'option': line.option, 'required': line.required} %}
+                {{ attribute(params.formElement, line.type, [inputs, line.value, key, params.languageId])|raw }}
+                <input class="form-control" type="hidden" id="{{ key }}" name="{{ key }}" value="{{ line.value }}" />
+            </div>
+        {% else %}
+            <div class="form-group has-feedback">
+                {% if line.name is defined %}
+                    <label for="{{ key }}">{{ line.name|raw }}{% if line.legend is defined %} {{ line.legend|raw }}{% endif %}</label>
+                {% endif %}
+
+                {%
+                if line.type == 'select'
+                %}
+                    <select class="form-control" id="{{ key }}" name="{{ key }}"{% if line.required == true %} required{% endif %}>
+                        {% for value,option in line.options %}
+                        <option value="{{ value }}" {% if line.value == value %}selected="selected"{% endif %}>{{ option }}</option>
+                            {% endfor %}
+                    </select>
+                {%
+                elseif line.type == 'textarea'
+                %}
+                    <textarea rows="5" class="form-control" id="{{ key }}" placeholder="{{ line.name|raw }}" name="{{ key }}" {% if line.required == true %} required{% endif %}>{{ line.value }}</textarea>
+                {%
+                else
+                %}
+                    <input type="{{ line.type }}" class="form-control" id="{{ key }}" placeholder="{{ line.name|raw }}" name="{{ key }}" value="{{ line.value }}"{% if line.required == true %} required{% endif %}>
+                {%
+                endif
+                %}
+                {% if line.required == true %}
+                    <i class="fa fa-exclamation-triangle form-control-feedback" /></i>
+                {% endif %}</div>
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="{{ formButtonText }}" class="btn btn-default" />
+</form>

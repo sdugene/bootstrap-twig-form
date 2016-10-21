@@ -1,0 +1,24 @@
+{
+	"name"        : "siteoffice/bootstrap-twig-form",
+    "type"        : "library",
+	"description" : "SiteOffice bootstrap-twig-form.",
+	"keywords"    : ["twig", "form", "generator", "bootstrap"],
+    "homepage"    : "http://www.siteoffice-cms.fr/",
+	"license"     : "MIT",
+	"authors"     : [
+		{
+			"name"     : "SiteOffice",
+            "homepage" : "http://www.siteoffice-cms.fr",
+            "email"    : "webmaster@siteoffice.fr"
+		}
+	],
+    "require": {
+        "twig/twig"                      : "~1.10",
+        "twig/extensions"                : "^1.3"
+    },
+	"autoload": {
+        "psr-4": {
+            "BootStrapTwigForm\\": "src"
+        }
+    }
+}
